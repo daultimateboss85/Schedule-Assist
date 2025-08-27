@@ -1,0 +1,527 @@
+/* Some variables :) */
+:root{
+    --row-height: 7.8125rem;
+    --row-gap: 0.15rem;
+    --gap-color :rgb(177, 177, 177);
+    --event-boxcolor: #f3f6f9;
+}
+
+*{
+    box-sizing: border-box;
+    font: inherit;
+}
+
+input[type=checkbox], input[type=submit]{
+    cursor: pointer;
+}
+
+button{
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+#container{
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-auto-rows: minmax(50px, auto);
+    column-gap: var(--row-gap);
+    row-gap: var(--row-gap);
+
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+#options{
+    background-color: var(--event-boxcolor);
+}
+
+#topbar{
+    background-color: var(--event-boxcolor);
+    display:flex;
+    align-items: center;
+
+    button{
+        margin-left: auto;
+    }
+}
+
+#sidebar{
+    background-color: var(--event-boxcolor);
+    padding: 0.5rem;
+    
+    .sidebar-item{
+        position: relative;
+        cursor: pointer;
+        max-width: 100%;
+        display: flex;
+        justify-content: space-between;
+        
+        span{
+            display: none;
+        }
+    }
+
+    .sidebar-item:hover{
+        span{
+            display: inline;
+            font-size: 100%;
+        }
+    }
+
+    input{
+        width: 100%;
+    }
+
+    
+}
+
+
+/* contains calendar grid */
+#maingrid{
+    background-color: blueviolet;
+    height: 100%;
+}
+
+/* contains entire calendar */
+#calendar-grid{
+    background-color: var(--gap-color);
+    display: grid;
+    grid-template-columns: 1fr repeat(7, 3fr);
+    column-gap: var(--row-gap);
+    height: 100%;
+    overflow-y: scroll;
+}
+
+
+/* different parts of calendar grid */
+
+.label-col, .schedule-col{
+    display: grid;
+    grid-template-rows: 70px auto;
+    row-gap: var(--row-gap);
+}
+
+
+.label, .schedule-name{
+    display: grid;
+    background-color: #f3f6f9;
+}
+
+.label-items, .event-col{
+    background-color: var(--gap-color);
+    display: grid;
+    grid-auto-rows: var(--row-height);
+    row-gap: var(--row-gap);
+    justify-items: stretch;
+    align-items: stretch; 
+}
+
+/* different "boxes" in calendar labels and events */
+
+.label{     
+    font-size: xx-small;
+    justify-items: end;
+    align-items: end;
+}
+
+.schedule-name{
+    top:0;
+    cursor: pointer;
+    justify-items: center;
+    align-items: center;
+    position: sticky;
+    border-bottom: solid var(--row-gap) var(--gap-color);
+    z-index: 40;
+}
+
+.gmt{
+    display: flex;
+    top:0;
+    position: sticky;
+    border-bottom: solid var(--row-gap) var(--gap-color);
+    font-size: xx-small;
+    justify-content: flex-end;
+    align-items: flex-end;
+    
+    z-index: 40;
+    background-color: #f3f6f9;
+
+}
+.event-box{
+    background-color: var(--event-boxcolor);
+    height: var(--row-height);
+    position: relative;
+    cursor: pointer;   
+}
+
+.red-line{
+    height: 2px;
+    width: 50%;
+    background-color: red;
+    position: absolute;
+    z-index: 25;
+    opacity: 50%;
+}
+.event-container{
+    position: absolute;
+    border : solid 1px black;
+    font-size: 0.85rem;
+    width: 100%;
+    background-color: lightblue; 
+    z-index: 3;
+    
+}
+
+.event-title{
+    position: relative;
+
+}
+
+.event-time{
+    position: relative;
+ 
+}
+
+.popup-form{
+    position: absolute;
+    width: 25vw;
+    height: 20vh; 
+    left: 105%;
+    background-color: blanchedalmond;
+    cursor: default;
+    z-index: 35;
+
+   
+    input[type=text]{
+        width: 100%;
+    }
+
+    .vert-centre{
+        display: flex;
+        align-items: center;
+        
+    }
+    textarea{
+        width: 100%;
+        resize: none;
+    }
+    .container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 3px;
+        background-color: #D2D5DE;
+
+        div{
+            margin-bottom: 2px;
+        }
+
+        >div{
+        width: 94%;
+        }
+        
+        .time{
+            input{
+                width: 50%;
+            }
+        }
+        
+        .flex-between{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .close{
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+    }
+}
+
+
+
+
+
+
+.cal-container{
+    margin-top: 3rem;
+    width: 100%;
+    height: 100%;
+    background-color:var(--event-boxcolor)
+}
+
+
+
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+.sched-menu{
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    position: absolute;
+    border-left: solid 2px black;
+    border-right: solid 2px black;
+    border-top: solid 2px black;
+
+    top:103%;
+    width: 150%;
+    background-color: var(--event-boxcolor);
+
+    div{
+        border-bottom: solid 2px black;
+    }
+
+    .to-side{
+        border-left: solid 2px black;
+        border-right: solid 2px black;
+        border-top: solid 2px black;
+        border-bottom: none;
+        position: absolute;
+        top:0;
+        background-color: var(--event-boxcolor);
+      
+        
+    }
+}
+
+.checkbox{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+
+/* message utils */
+.message{
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    background-color: #D2D5DE;
+    border-radius: 5px;
+}
+
+.success{
+    background-color: #b0efd4;
+}
+
+.failure{
+    background-color: rgb(239, 148, 148);
+}
+
+.confirm{
+    position: fixed;
+    border: solid 2px black;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #D2D5DE;
+
+    div{
+        margin: 3px;
+    }
+}
+
+.login-form{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    height: 50%;
+
+    .container{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        height: 100%;
+        padding: 6px;
+        border: 2px solid black;
+
+        div{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .title{
+            font-size: 200%;
+            font-weight: 700;
+        }
+    }
+
+   
+}
+
+.flex-around{
+    display: flex;
+    justify-content: space-around;
+}
+/* utility classes */
+.new-form{
+
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.title{
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+@keyframes slideInLeft{
+    0%{
+        transform: translateX(-3rem);
+        opacity: 0%;
+       
+    }
+
+    100%{
+        opacity: 100%;
+        transform: translateX(0); 
+    }
+}
+
+@keyframes slideInRight{
+    0%{
+        transform: translateX(3rem);
+        opacity: 0%; 
+    }
+
+    100%{
+        
+        opacity: 100%;
+        transform: translateX(0); 
+    }
+}
+
+@keyframes slideInTop{
+    0%{
+        transform: scaleY(0);
+        opacity: 0%;
+    }
+    100%{
+        transform: scaleY(1);
+        opacity: 100%;
+    }
+}
+
+@keyframes scaleOut{
+    0%{
+        transform: scaleY(1);
+        display: block;
+    }
+    100%{
+        transform: scaleY(0);
+        display: none;
+        }
+}
+
+@keyframes disappear{
+    0%{
+        display: block;
+        opacity: 100%;
+    }
+
+    100%{
+        opacity: 0;
+        display: none;
+    }
+}
+
+@keyframes scaleInLeft{
+    0%{
+        transform: scaleX(0);
+        opacity: 0%;
+    }
+    100%{
+        transform: scaleX(1);
+        opacity: 100%;
+    }
+}
+
+@keyframes scaleIn{
+    0%{
+        opacity: 0%;
+    }
+    100%{
+        opacity: 100%;
+    }
+}
+.animate{
+    animation-duration: 200ms;
+    animation-fill-mode: both;
+}
+
+.slideInLeft{
+    animation-name: slideInLeft;
+    animation-duration: 500ms;
+}
+
+.slideInRight{
+    animation-name: slideInRight;
+    animation-duration: 500ms;
+}
+
+.slideInTop{
+    animation-name: slideInTop;
+    animation-duration: 200ms;
+    transform-origin: top;
+}
+
+.scaleOut{
+    animation-name: scaleOut;   
+}
+
+.scaleInLeft{
+    animation-name: scaleInLeft;
+    animation-duration: 200ms;
+    transform-origin: left;
+}
+
+.scaleInRight{
+    animation-name: scaleInLeft;
+    transform-origin: right;
+    
+}
+
+
+.scaleIn{
+    animation-name: scaleIn;
+}
+
+.disappear{
+    animation-fill-mode: forwards;
+    animation-name: disappear;
+}
+.long{
+    animation-duration: 5s;
+}
+/* messing around with media queries les go */
+/* not bothering how it looks in portrait mode for now */
+@media (orientation: portrait){
+    #maingrid{
+        display: none;
+
+    }
+}
+
+
+@media screen and (min-width:999px){
+    .title{
+        font-size: 1.7rem;
+    }
+}

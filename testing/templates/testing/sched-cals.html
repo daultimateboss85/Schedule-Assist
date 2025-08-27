@@ -1,0 +1,30 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<div id="container">
+    <div id="options"></div>
+    <div id ="topbar">
+        <button id="logout">Logout</button>
+    </div>
+
+    <div id="sidebar"></div>
+    <div id="maingrid">
+        <div id="calendar-grid">
+
+            <div id="label-col"></div>
+            <div id="schedule1"></div>
+            <div id="schedule2"></div>
+            <div id="schedule3"></div>
+            <div id="schedule4"></div>
+            <div id="schedule5"></div>
+            <div id="schedule6"></div>
+            <div id="schedule7"></div>
+
+        </div>
+    </div>
+</div>
+
+<script type="module"  src="{% static 'sched-cal.js' %}"></script>
+{% endblock %}
