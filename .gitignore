@@ -8,3 +8,11 @@ script.py
 **/__pycache__
 
 **__init__.py
+
+.dockerignore
+
+compose.yaml
+
+Dockerfile
+
+README.Docker.md

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from testing.models import ScheduleCalendar, Schedule, User, DailyEvent
-
+import copy
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,7 +50,10 @@ class EventSerializer(serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        #allowing start and end time to be single digit
+        
         #inital object / queryset (group of objects) is made available through self.instance
+        
         if self.instance:
             # changing the representation of start and end times here for easy displaying on front end
             try:
@@ -88,3 +91,15 @@ class EventSerializer(serializers.ModelSerializer):
             instance.save(overlap=True)
 
         return instance
+
+    def to_internal_value(self, data):
+        #allowing single digit start and end times
+        data_copy = copy.deepcopy(data)
+        start_time = data_copy["start_time"]
+        end_time = data["end_time"]
+
+        if len(end_time)==1:
+            data_copy["end_time"] = "0" + end_time
+        if len(start_time)==1:
+            data_copy["start_time"] = "0" + end_time
+        return super().to_internal_value(data_copy)

@@ -4,6 +4,7 @@
     --row-gap: 0.15rem;
     --gap-color :rgb(177, 177, 177);
     --event-boxcolor: #f3f6f9;
+    
 }
 
 *{
@@ -187,12 +188,12 @@ button{
 
 .popup-form{
     position: absolute;
-    width: 25vw;
+    width:clamp(150px,25vw,25vw);
     height: 20vh; 
     left: 105%;
     background-color: blanchedalmond;
     cursor: default;
-    z-index: 35;
+    z-index: 41;
 
    
     input[type=text]{
@@ -514,9 +515,33 @@ button{
 /* not bothering how it looks in portrait mode for now */
 @media (orientation: portrait){
     #maingrid{
-        display: none;
-
+        overflow-x: auto;
+        overflow-x: scroll;
+        /* white-space: nowrap; */
     }
+
+    #calendar-grid{
+    background-color: var(--gap-color);
+    display: grid;
+    grid-template-columns: 1fr repeat(7, minmax(150px,1fr));
+    column-gap: var(--row-gap);
+    height: 100%;
+    overflow-y: scroll;
+}
+
+@keyframes slideInRight{
+    0%{
+        transform: translateX(10px);
+        opacity: 0%; 
+    }
+
+    100%{
+        
+        opacity: 100%;
+        transform: translateX(0); 
+    }
+}
+
 }
 
 

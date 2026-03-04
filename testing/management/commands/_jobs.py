@@ -115,9 +115,9 @@ def job():
 
         print(events)
 
-        for event in events:
-            # set up notification for each event
-            new_thread = threading.Thread(target=notify, daemon=True, args=[event])
-            new_thread.start()
+        # for event in events:
+        #     # set up notification for each event
+        #     new_thread = threading.Thread(target=notify, daemon=True, args=[event])
+        #     new_thread.start()
             
     actual_job()

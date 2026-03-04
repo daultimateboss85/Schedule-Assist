@@ -438,12 +438,33 @@ function clickbox(event , schedule_id, box_number, box_or_event, offset, event_d
     let x = event.x;
     let half_screen_size = window.innerWidth * 3 / 5;
 
-    if (x > half_screen_size){
-        form.style.left = `-233%`;
-        form.classList.add("slideInRight");
-    }else{
-        form.classList.add("slideInLeft");
+    // Source - https://stackoverflow.com/a/16567475
+// Posted by crmpicco, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-02-09, License - CC BY-SA 3.0
+
+    if (window.matchMedia("(orientation: portrait)").matches) {
+    // you're in PORTRAIT mode
+        if (x > half_screen_size){
+            form.style.left = `-10%`;
+            form.classList.add("slideInRight");
+        }else{
+            form.style.left = `10%`;
+            form.classList.add("slideInLeft");
+        }
     }
+
+    else if (window.matchMedia("(orientation: landscape)").matches) {
+    // you're in LANDSCAPE mode
+        if (x > half_screen_size){
+            form.style.left = `-233%`;
+            form.classList.add("slideInRight");
+        }else{
+            // form.style.left = `20%`;
+            form.classList.add("slideInLeft")
+        }
+    }
+
+    
 
 }
 

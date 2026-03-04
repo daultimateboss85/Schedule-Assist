@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
         window.location.replace("/")
 
     }else{
-        console.log("This  should never load");
+        console.log("This  should  load");
         
         //load home page immediately upon visit
         load_home();
@@ -438,12 +438,37 @@ function clickbox(event , schedule_id, box_number, box_or_event, offset, event_d
     let x = event.x;
     let half_screen_size = window.innerWidth * 3 / 5;
 
-    if (x > half_screen_size){
-        form.style.left = `-233%`;
-        form.classList.add("slideInRight");
-    }else{
-        form.classList.add("slideInLeft");
+    // Source - https://stackoverflow.com/a/16567475
+// Posted by crmpicco, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-02-09, License - CC BY-SA 3.0
+
+    if (window.matchMedia("(orientation: portrait)").matches) {
+    // you're in PORTRAIT mode
+        if (x > half_screen_size){
+            console.log("potrait hello");
+            form.style.left = `10%`;
+            form.classList.add("slideInRight");
+        }else{
+            form.style.left = `10%`;
+            form.classList.add("slideInLeft");
+            console.log("potrait hi");
+        }
     }
+
+    else if (window.matchMedia("(orientation: landscape)").matches) {
+    // you're in LANDSCAPE mode
+        if (x > half_screen_size){
+            console.log("landscape hello worl");
+            form.style.left = `-233%`;
+            form.classList.add("slideInRight");
+        }else{
+            console.log("landscape hi");
+            form.style.left = `20%`;
+            form.classList.add("slideInLeft");
+        }
+    }
+
+    
 
 }
 
@@ -453,9 +478,6 @@ function create_Form(schedule_id, event_details, box_number){
     let form_container = document.createElement("div");
     form.append(form_container);
     form_container.classList.add("container")
-
-    //remove autocomplete from forms
-    form.setAttribute("autocomplete", "off");
 
     // section containing delete and close button -----------------------------------
 
@@ -468,19 +490,17 @@ function create_Form(schedule_id, event_details, box_number){
 
     if(event_details){
         //delete button
-    
+     
         delete_span.innerHTML += "delete";
-        //delete_span.classList.add("material-symbols-outlined", "pointer");
+        delete_span.classList.add("material-symbols-outlined", "pointer");
         top.append(delete_span);
-        let counter = 0; //counter for how many times delete button has been clicked
+        
         // deleting events ----------------------------------------------------------------------
         delete_span.addEventListener("click", async (event)=>{
             event.stopPropagation();
-            if (!counter){
             let response = await confirm_before_request("Are you sure you want to delete this event",[
                 ()=>{load_schedule(event_details["schedule"])}],
                 `api/Events/${event_details["id"]}`, "DELETE", null, null, );
-            counter++;  }
 
         })
     }
@@ -500,6 +520,7 @@ function create_Form(schedule_id, event_details, box_number){
     let title_input = document.createElement("input");
     title_input.setAttribute("placeholder", "Add Title");
     title_input.setAttribute("name", "title");
+    title_input.setAttribute("type", "text");
 
     middle.append(title_input);
 
@@ -527,18 +548,47 @@ function create_Form(schedule_id, event_details, box_number){
     description.classList.add("description");
     bottom.append(description);
 
-    // section containing event overlap and submit button ---------------------------------
+    // section containing event overlap, important event and submit button ---------------------------------
     let actual_bottom = document.createElement("div");
     form_container.append(actual_bottom);
     actual_bottom.classList.add("flex-between");
 
-    let overlap_section = document.createElement("span");
+    //overlap and important div
+    let left_div = document.createElement("div");   
+
+    let overlap_section = document.createElement("div");
+    overlap_section.classList.add("flex-between");
+
     let overlap = document.createElement("input");
+
     overlap.setAttribute("name", "overlap");
     overlap.setAttribute("type", "checkbox");
     overlap_section.append("Shift Overlap", overlap )
 
-    actual_bottom.append(overlap_section);
+    //important
+    let important_section = document.createElement("div");
+    important_section.classList.add("flex-between");
+    let important = document.createElement("input");
+
+    important.setAttribute("name", "important");
+    important.setAttribute("type", "checkbox");
+
+    important_section.append("Important", important);
+
+    left_div.append(overlap_section);
+    left_div.append(important_section);
+
+
+    actual_bottom.append(left_div);
+    
+    //div for submit button
+    let right_div = document.createElement("div");
+    right_div.classList.add("vert-centre")
+    let submit = document.createElement("button");
+    submit.innerHTML += "Submit";
+    right_div.append(submit);
+
+    actual_bottom.append(right_div);
 
     // populate if event box
     if (event_details){
@@ -546,13 +596,11 @@ function create_Form(schedule_id, event_details, box_number){
         start_time.value = event_details["start_time"];
         end_time.value = event_details["end_time"];
         description.value = event_details["description"];
+        important.checked = event_details["important"];
     }else{
         start_time.value = `${box_number}:00`;
     }
-    
-    let submit = document.createElement("button");
-    submit.innerHTML += "Submit";
-    actual_bottom.append(submit)
+   
 
 
     form.addEventListener("click", (event)=>{
@@ -583,7 +631,6 @@ async function confirm_before_request(confirmation_message,other_functions, endp
     confirmation_message - is the message that will be displayed before request is allowed or "cancelled"
     other_functions - are functions that might want to be run when user confirms request allow ie presses yes
     remaining args - are passed to myFetch ie they define the request that should be sent
-    
     if request has message it is displayed   */
 
     let confirmation_div = document.createElement("div");
@@ -734,7 +781,7 @@ function display_schedule_options(event, schedule){
         to_side.classList.add("to-side", "animate");
 
         //conditionally rendering to_side
-        if (event.x > window.innerWidth * 3/4 ){
+        if (event.x > window.innerWidth *3/4){
             to_side.style.right = "105%";
             to_side.classList.add("scaleInRight");
         }else{

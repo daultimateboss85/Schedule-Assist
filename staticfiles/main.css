@@ -4,6 +4,7 @@
     --row-gap: 0.15rem;
     --gap-color :rgb(177, 177, 177);
     --event-boxcolor: #f3f6f9;
+    
 }
 
 *{
@@ -187,31 +188,46 @@ button{
 
 .popup-form{
     position: absolute;
-    width: 25vw;
+    width:clamp(150px,25vw,25vw);
     height: 20vh; 
     left: 105%;
     background-color: blanchedalmond;
     cursor: default;
-    z-index: 35;
+    z-index: 41;
 
-    input{
-        width: 94%;
+   
+    input[type=text]{
+        width: 100%;
+    }
+
+    .vert-centre{
+        display: flex;
+        align-items: center;
+        
     }
     textarea{
-        width: 94%;
+        width: 100%;
         resize: none;
     }
     .container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         padding: 3px;
         background-color: #D2D5DE;
-        
+
         div{
             margin-bottom: 2px;
+        }
+
+        >div{
+        width: 94%;
         }
         
         .time{
             input{
-                width: 47%;
+                width: 50%;
             }
         }
         
@@ -499,9 +515,78 @@ button{
 /* not bothering how it looks in portrait mode for now */
 @media (orientation: portrait){
     #maingrid{
-        display: none;
-
+        overflow-x: auto;
+        overflow-x: scroll;
+        /* white-space: nowrap; */
     }
+
+    #calendar-grid{
+    background-color: var(--gap-color);
+    display: grid;
+    grid-template-columns: 1fr repeat(7, minmax(150px,1fr));
+    column-gap: var(--row-gap);
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.popup-form{
+    position: absolute;
+    min-width: 150px;
+    max-width: 25vw;
+    height: 20vh; 
+    background-color: blanchedalmond;
+    cursor: default;
+    z-index: 41;
+
+   
+    input[type=text]{
+        width: 100%;
+    }
+
+    .vert-centre{
+        display: flex;
+        align-items: center;
+        
+    }
+    textarea{
+        width: 100%;
+        resize: none;
+    }
+    .container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 3px;
+        background-color: #D2D5DE;
+
+        div{
+            margin-bottom: 2px;
+        }
+
+        >div{
+        width: 94%;
+        }
+        
+        .time{
+            input{
+                width: 50%;
+            }
+        }
+        
+        .flex-between{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .close{
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+    }
+}
+
 }
 
 
